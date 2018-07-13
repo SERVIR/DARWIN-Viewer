@@ -12,12 +12,12 @@ from os.path import basename
 
 default_schemas = ['basin','crops','dssat','ken_test','information_schema','lai','precip','public','soilmoist','test','test_ke','test_tza','tmax','tmin','topology','vic','wind','pg_toast','pg_temp_1','pg_toast_temp_1','pg_catalog','ken_vic','tza_vic','eth_vic','tza_nrt']
 
-logging.basicConfig(filename='darwin.log',level=logging.INFO)
+# logging.basicConfig(filename='darwin.log',level=logging.INFO)
 
 def get_selected_raster(db,region,variable,date):
-    logging.info(str(region)+','+str(variable)+','+str(date))
+    # logging.info(str(region)+','+str(variable)+','+str(date))
     try:
-        logging.info('Connecting to the database')
+        # logging.info('Connecting to the database')
         conn = psycopg2.connect("dbname={0} user={1} host={2} password={3}".format(db,cfg.connection['user'],cfg.connection['host'],cfg.connection['password']))
         cur = conn.cursor()
 
@@ -26,30 +26,30 @@ def get_selected_raster(db,region,variable,date):
         cat = Catalog(cfg.geoserver['rest_url'], username=cfg.geoserver['user'], password=cfg.geoserver['password'],disable_ssl_certificate_validation=True)
 
         try:
-            logging.info('Check if the layer exists')
+            # logging.info('Check if the layer exists')
             something = cat.get_store(storename,cfg.geoserver['workspace'])
             if not something:
-		logging.info('Layer doesnt exist')
+		# logging.info('Layer doesnt exist')
                 print "No store"
                 raise Exception
             else:
                 mean, stddev, min, max = get_vic_summary(db,region, variable, date)
-                logging.info(str(mean)+str(stddev)+str(min)+str(max))
+                # logging.info(str(mean)+str(stddev)+str(min)+str(max))
                 return storename, mean, stddev, min, max
         except Exception  as e:
-            logging.info('Entering geoserver code')
-	    logging.error('Error at failed request ' + str(e))
+            # logging.info('Entering geoserver code')
+	    # logging.error('Error at failed request ' + str(e))
             try:
-                logging.info('Starting the geoserver stuff')
+                # logging.info('Starting the geoserver stuff')
                 sql = """SELECT ST_AsGDALRaster(rast, 'GTiff') as tiff FROM {0}.{1} WHERE id={2}""".format(region, variable, date)
                 cur.execute(sql)
                 data = cur.fetchall()
-                logging.info(str(data))
+                # logging.info(str(data))
 
                 mean, stddev, min, max = get_vic_summary(db,region, variable, date)
-                logging.info('Work you piece ...')
+                # logging.info('Work you piece ...')
                 rest_url = cfg.geoserver['rest_url']
-                logging.info(str(rest_url))
+                # logging.info(str(rest_url))
 
                 if rest_url[-1] != "/":
                     rest_url = rest_url + '/'
@@ -61,22 +61,22 @@ def get_selected_raster(db,region,variable,date):
                 request_url = '{0}workspaces/{1}/coveragestores/{2}/file.geotiff'.format(rest_url,
                                                                                          cfg.geoserver['workspace'],
                                                                                          storename)  # Creating the rest url
-                logging.info('Get the username and password')
+                # logging.info('Get the username and password')
                 user = cfg.geoserver['user']
                 password = cfg.geoserver['password']
-                logging.info('Right before the put command')
+                # logging.info('Right before the put command')
                 requests.put(request_url,verify=False,headers=headers, data=data[0][0],
                                  auth=(user, password))  # Creating the resource on the geoserver
 
-                logging.info(request_url)
+                # logging.info(request_url)
                 return storename, mean, stddev, min, max
 
             except Exception as er:
-		logging.info('Error at uplaoding tiff '+ str(e))
+		# logging.info('Error at uplaoding tiff '+ str(e))
                 return str(er)+' This is while adding the raster layer.'
 
     except Exception as err:
-        logging.info(str(err) + ' This is generic catch all')
+        # logging.info(str(err) + ' This is generic catch all')
         return str(err)+ ' This is the generic one'
 
 def get_vic_summary(db,region,variable,date):

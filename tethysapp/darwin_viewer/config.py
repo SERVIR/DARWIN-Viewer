@@ -1,4 +1,4 @@
-connection = {'host': '10.10.10.10',
+connection = {'host': '10.0.0.0',
               'user': 'rheas',
               'password': 'pass',
               'dbname': 'rheas'}
