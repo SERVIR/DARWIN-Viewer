@@ -312,6 +312,27 @@ def get_dssat_ensemble(db,gid,schema):
         print e
         return e
 
+def get_dssat_gid(db,schema):
+
+
+    try:
+        conn = psycopg2.connect("dbname={0} user={1} host={2} password={3}".format(db, cfg.connection['user'],cfg.connection['host'], cfg.connection['password']))
+        cur = conn.cursor()
+
+
+        sql = """SELECT DISTINCT gid FROM {0}.dssat;""".format(schema)
+
+        cur.execute(sql)
+        data = cur.fetchall()
+        print data
+        gids = [gid[0] for gid in data]
+        conn.close()
+
+        return gids
+    except Exception as e:
+        print e
+        return e
+
 def get_dssat_values(db,gid,schema,ensemble):
 
 

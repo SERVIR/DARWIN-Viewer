@@ -39,14 +39,29 @@ class DarwinViewer(TethysAppBase):
                 controller='darwin_viewer.ajax_controllers.get_db_schemas'
             ),
             UrlMap(
+                name='api-schemas',
+                url='darwin-viewer/api/getVICSchemas',
+                controller='darwin_viewer.api.api_get_db_schemas'
+            ),
+            UrlMap(
                 name='variables',
                 url='darwin-viewer/vic/variables',
                 controller='darwin_viewer.ajax_controllers.get_vars'
             ),
             UrlMap(
+                name='api-variables',
+                url='darwin-viewer/api/getVICVariables',
+                controller='darwin_viewer.api.api_get_vars'
+            ),
+            UrlMap(
                 name='dates',
                 url='darwin-viewer/vic/dates',
                 controller='darwin_viewer.ajax_controllers.get_dates'
+            ),
+            UrlMap(
+                name='api-dates',
+                url='darwin-viewer/api/getVICDates',
+                controller='darwin_viewer.api.api_get_dates'
             ),
             UrlMap(
                 name='raster',
@@ -69,6 +84,11 @@ class DarwinViewer(TethysAppBase):
                 controller='darwin_viewer.ajax_controllers.get_vic_plot'
             ),
             UrlMap(
+                name='api-get-vic-plot',
+                url='darwin-viewer/api/getVICPlot',
+                controller='darwin_viewer.api.api_get_vic_plot'
+            ),
+            UrlMap(
                 name='dssat',
                 url='darwin-viewer/dssat',
                 controller='darwin_viewer.controllers.dssat'
@@ -79,9 +99,24 @@ class DarwinViewer(TethysAppBase):
                 controller='darwin_viewer.ajax_controllers.get_dssat_schemas'
             ),
             UrlMap(
+                name='api-dssat-schema',
+                url='darwin-viewer/vic/getDSSATSchemas',
+                controller='darwin_viewer.api.api_get_dssat_schemas'
+            ),
+            UrlMap(
+                name='api-dssat-gid',
+                url='darwin-viewer/api/getDSSATGid',
+                controller='darwin_viewer.api.api_get_dssat_gid'
+            ),
+            UrlMap(
                 name='dsensemble',
                 url='darwin-viewer/dssat/get-ensemble',
                 controller='darwin_viewer.ajax_controllers.get_ensemble'
+            ),
+            UrlMap(
+                name='api-dsensemble',
+                url='darwin-viewer/api/getDSSATEnsembles',
+                controller='darwin_viewer.api.api_get_ensemble'
             ),
             UrlMap(
                 name='dsensval',
@@ -89,9 +124,24 @@ class DarwinViewer(TethysAppBase):
                 controller='darwin_viewer.ajax_controllers.get_ens_values'
             ),
             UrlMap(
+                name='api-dsensval',
+                url='darwin-viewer/api/getDSSATEnsembleValues',
+                controller='darwin_viewer.api.api_get_ens_values'
+            ),
+            UrlMap(
                 name='dsyield',
                 url='darwin-viewer/dssat/get-schema-yield',
                 controller='darwin_viewer.ajax_controllers.get_schema_yield'
+            ),
+            UrlMap(
+                name='api-dsyield',
+                url='darwin-viewer/api/getDSSATYield',
+                controller='darwin_viewer.api.api_get_schema_yield'
+            ),
+            UrlMap(
+                name='api-db',
+                url='darwin-viewer/api/getRHEASdb',
+                controller='darwin_viewer.api.api_get_dbs'
             ),
             # UrlMap(
             #     name='get-vars',
